@@ -31,16 +31,17 @@ extension Calendar {
         dateFormatter.isLenient = true
         return dateFormatter
     }()
-    
+    //JTAppleCalendar use only
+    public static var customStartDayOfMonth = 1
 
     func startOfMonth(for date: Date) -> Date? {
         guard let interval = self.dateInterval(of: .month, for: date) else { return nil }
-        return interval.start
+        return self.date(byAdding: .day, value: Calendar.customStartDayOfMonth - 1 , to: interval.start)
     }
     
     func endOfMonth(for date: Date) -> Date? {
         guard let interval = self.dateInterval(of: .month, for: date) else { return nil }
-        return self.date(byAdding: DateComponents(day: -1), to: interval.end)
+        return self.date(byAdding: DateComponents(day: -1 - Calendar.customStartDayOfMonth + 1), to: interval.end)
     }
     
     private func dateFormatterComponents(from date: Date) -> (month: Int, year: Int)? {
